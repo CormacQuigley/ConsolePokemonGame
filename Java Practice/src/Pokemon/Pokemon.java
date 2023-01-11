@@ -1,4 +1,5 @@
 package Pokemon;
+import java.util.Hashtable;
 import java.util.Scanner;
 
 
@@ -8,6 +9,8 @@ public class Pokemon {
 		int hp;
 		int AttackDamage;
 		String Type;
+		double Effective = 1.6;
+		double NotEffective = 0.625;
 		
 		Pokemon(){
 			level = 1;
@@ -31,53 +34,92 @@ public class Pokemon {
 			System.out.println("Pokemon Type Wrong...");
 		}
 		
+		void typeCheckSupEff(Pokemon a, Pokemon b, Hashtable<String,Object> superEff) {
+			//Go through dictionary for super effective
+			for (String key : superEff.keySet()) {
+				
+				if(a.Type == key) {
+					 Object value = superEff.get(key);
+					 	//If the value is an array
+					    if (value instanceof String[]) {
+					        for (String element : (String[]) value) {
+					            if(b.Type == value) {
+					            	a.AttackDamage *= Effective;
+					            }
+					        }
+					    } else {
+					    	if(b.Type == value) {
+					        a.AttackDamage *= Effective;
+					    	}
+					    }
+					    System.out.println();
+					}
+					
+				}
+		}
+		
+		void typeCheckNotVEff(Pokemon a, Pokemon b, Hashtable<String,Object> NotVEff) {
+			//Go through dictionary for super effective
+			for (String key : NotVEff.keySet()) {
+				
+				if(a.Type == key) {
+					 Object value = NotVEff.get(key);
+					 	//If the value is an array
+					    if (value instanceof String[]) {
+					        for (String element : (String[]) value) {
+					            if(b.Type == value) {
+					            	
+					            	a.AttackDamage *= NotEffective;
+					            }
+					        }
+					    } else {
+					    	if(b.Type == value) {
+					        
+					        a.AttackDamage *= NotEffective;
+					    	}
+					    }
+					    System.out.println();
+					}
+					
+				}
+		}
+		
+		
 		void typeEffect(Pokemon a, Pokemon b) {
 			//Neutral Affect types do not need to be here
 			
-			//Fire and Water
-			if(a.Type == "Fire" && b.Type == "Water") {
-				b.AttackDamage += b.AttackDamage * 1.6;
-				a.AttackDamage += a.AttackDamage * 0.625;
-			}
-			if(a.Type == "Water" && b.Type == "Fire") {
-				a.AttackDamage += a.AttackDamage * 1.6;
-				b.AttackDamage += b.AttackDamage * 0.625;
-			}
-			//Grass and Fire
-			if(a.Type == "Grass" && b.Type == "Fire") {
-				b.AttackDamage += b.AttackDamage * 1.6;
-				a.AttackDamage += a.AttackDamage * 0.625;
-			}
-			if(a.Type == "Fire" && b.Type == "Grass") {
-				a.AttackDamage += a.AttackDamage * 1.6;
-				b.AttackDamage += b.AttackDamage * 0.625;
-			}
+			//Create a hash table to make a dictionary for super effectives
+			Hashtable<String, Object> superEff = new Hashtable<String, Object>();
 			
-			//Grass and Electric
-			if(a.Type == "Grass" && b.Type == "Electric") {
-				b.AttackDamage += b.AttackDamage * 0.625;
-			}
-			if(a.Type == "Electric" && b.Type == "Grass") {
-				a.AttackDamage += a.AttackDamage * 0.625;
-			}
+			//Create because there is two super effective types to water currently
 			
-			//Water and Electric
-			if(a.Type == "Water" && b.Type == "Electric") {
-				b.AttackDamage += b.AttackDamage * 1.6;
-			}
-			if(a.Type == "Electric" && b.Type == "Water") {
-				a.AttackDamage += a.AttackDamage * 1.6;
-			}
 			
-			//Water and Grass
-			if(a.Type == "Water" && b.Type == "Grass") {
-				b.AttackDamage += b.AttackDamage * 1.6;
-				a.AttackDamage += a.AttackDamage * 0.625;
-			}
-			if(a.Type == "Grass" && b.Type == "Water") {
-				a.AttackDamage += a.AttackDamage * 1.6;
-				b.AttackDamage += b.AttackDamage * 0.625;
-			}
+			//Super Effectives against key
+			superEff.put("Water", "Fire");
+			superEff.put("Fire", "Grass");
+			superEff.put("Grass", "Water");
+			superEff.put("Electric", "Water");
+			
+			
+			//Create a hash table to make a dictionary for not very effectives
+			Hashtable<String, Object> NotVEff = new Hashtable<String, Object>();
+			//Use array as it has more than one option
+			String[] grassNotvEff = {"Water","Electric"};
+			String[] fireNotvEff = {"Fire,Water"};
+			String[] electricNotvEff = {"Electric,Grass"};
+			String[] waterNotvEff = {"Fire,Water"};
+			
+			//Not Very Effective
+			NotVEff.put("Grass", grassNotvEff);
+			NotVEff.put("Fire", fireNotvEff);
+			NotVEff.put("Electric", electricNotvEff);
+			NotVEff.put("Water", waterNotvEff);
+			
+			typeCheckSupEff(a,b, superEff);
+			typeCheckSupEff(b,a, superEff);
+			typeCheckNotVEff(a,b,NotVEff);
+			typeCheckNotVEff(b,a,NotVEff);
+			
 		}
 		
 		void showHP() {
