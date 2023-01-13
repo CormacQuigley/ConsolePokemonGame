@@ -70,9 +70,9 @@ public class Pokemon {
 			            	
 			            	 String[] elements = (String[]) value;
 			            	   
-			            		System.out.println(elements[b2-1] + " has been used");
+			            		System.out.println(elements[b2] + " has been used");
 		            			
-		            			AttackDamage = attackDamage[b2-1];
+		            			AttackDamage = attackDamage[b2];
 			
 			            }
 			            }
@@ -104,24 +104,22 @@ public class Pokemon {
 		            	    int Attack1 = -1;
 		            		try{
 		            			Attack1 = Attack.nextInt();
+		            			System.out.println(elements[Attack1-1] + " has been used");
+		            			AttackDamage = attackDamage[Attack1-1];
+		            			int max = 10;
+		            			int min = 0;
+		            				
+		            			int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
+		            		    
+		            			if(random_int >= 3) {
+		            				System.out.println("Your Attack Hits!");
+		            			}else {
+		            				AttackDamage = 0;
+		            				System.out.println("Oh No! Your attack has missed");
+		            			}
 		            			}catch(Exception e) {
-		            				System.out.println("Something Went Wrong");			
+		            				System.out.println("You have given the wrong command and your Pokemon has gotten confused and missed!");			
 		            				}
-		            	
-		            		System.out.println(elements[Attack1-1] + " has been used");
-	            			AttackDamage = attackDamage[Attack1-1];
-		            		
-	            			int max = 10;
-	            			int min = 0;
-	            				
-	            			int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
-	            		    
-	            			if(random_int >= 3) {
-	            				System.out.println("Your Attack Hits!");
-	            			}else {
-	            				AttackDamage = 0;
-	            				System.out.println("Oh No! Your attack has missed");
-	            			}
 		            }
 		        }
 		    }
@@ -205,6 +203,14 @@ public class Pokemon {
 			typeCheckSupEff(a,b, superEff);
 			typeCheckNotVEff(a,b,NotVEff); 
 			
+		}
+		
+		boolean feintCheck(Pokemon a) {
+			if(a.hp <= 0) {
+				return true;
+			}else {
+				return false;
+			}
 		}
 		
 		
