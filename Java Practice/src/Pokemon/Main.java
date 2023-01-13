@@ -76,32 +76,33 @@ public class Main {
 	
 	try{
 		path1 = path.nextInt();
+		
 		}catch(Exception e) {
 			System.out.println("Something Went Wrong");			
 			}
-	
+	Battle battle1 = new Battle();
 	switch (path1){
 	case -1:
 		System.out.println("You broke something...");
 		break;
 	case 1:
 		System.out.println("You have decided to wonder down the stormy path \n You have encountered a wild Pikachu and it attacks you, you must fight back!");
-		Starter.Battle(Starter, Pikachu);
+		battle1.startBattle(Starter, Pikachu);
 		chosen2 = true;
 		break;
 	case 2: 
 		System.out.println("You have decided to wonder up volcano valley \n You have encountered a wild Charmander and it attacks you, you must fight back!");
-		Starter.Battle(Starter, Charmander);
+		battle1.startBattle(Starter, Charmander);
 		chosen2 = true;
 		break;
 	case 3: 
 		System.out.println("You have decided to wonder down to water lodge \n You have encountered a wild Squirtle and it attacks you, you must fight back!");
-		Starter.Battle(Starter, Squirtle);
+		battle1.startBattle(Starter, Squirtle);
 		chosen2 = true;
 		break;
 	case 4: 
 		System.out.println("You have decided to wonder to grassy plains \n You have encountered a wild Bulbasuar and it attacks you, you must fight back!");
-		Starter.Battle(Starter, Bulbasaur);
+		battle1.startBattle(Starter, Bulbasaur);
 		chosen2 = true;
 		break;
 	default:
