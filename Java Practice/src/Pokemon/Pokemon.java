@@ -32,6 +32,14 @@ public class Pokemon {
 			hp = Math.round(hp);
 		}
 		
+		void createTypeDict(Hashtable<String, Object> attackMoves){
+			//Add arrays to the dictionary with the types as keys
+		    attackMoves.put("Water", waterMoves);
+		    attackMoves.put("Fire", fireMoves);
+		    attackMoves.put("Electric", electricMoves);
+		    attackMoves.put("Grass", grassMoves);
+		}
+		
 		void PrintPokemon() {
 			System.out.println("Name: " + pName);
 			System.out.println("Type: " + Type);
@@ -39,12 +47,8 @@ public class Pokemon {
 			System.out.println("Health Points: " + hp);
 		}
 		
-		void createTypeDict(Hashtable<String, Object> attackMoves){
-			//Add arrays to the dictionary with the types as keys
-		    attackMoves.put("Water", waterMoves);
-		    attackMoves.put("Fire", fireMoves);
-		    attackMoves.put("Electric", electricMoves);
-		    attackMoves.put("Grass", grassMoves);
+		void showHP() {
+			System.out.println(hp);
 		}
 		
 		void botAttack(Pokemon b) {
@@ -123,6 +127,30 @@ public class Pokemon {
 		    }
 		}
 		
+		void typeCheckNotVEff(Pokemon a, Pokemon b, Hashtable<String,Object> NotVEff) {
+			//Go through dictionary for super effective
+			for (String key : NotVEff.keySet()) {
+				
+				if(a.Type == key) {
+					 Object value1 = NotVEff.get(key);
+					
+					 if (value1 instanceof String[]) {
+			            	 String[] elements = (String[]) value1;
+			            	    for (int i = 0; i < elements.length; i++) {
+			            	    	if(elements[i] == b.Type)
+			            	    		a.AttackDamage *= NotEffective;
+			            	        
+			            	    }
+			            	    
+					        } else {
+					    	if(b.Type == value1) {
+					        a.AttackDamage *= NotEffective;
+					    	}
+					    } 
+					    System.out.println();
+					}
+				}
+		}
 		void typeCheckSupEff(Pokemon a, Pokemon b, Hashtable<String,Object> superEff) {
 			//Go through dictionary for super effective
 			for (String key : superEff.keySet()) {
@@ -151,50 +179,15 @@ public class Pokemon {
 				}
 		
 		
-		void typeCheckNotVEff(Pokemon a, Pokemon b, Hashtable<String,Object> NotVEff) {
-			//Go through dictionary for super effective
-			for (String key : NotVEff.keySet()) {
-				
-				if(a.Type == key) {
-					 Object value1 = NotVEff.get(key);
-					
-					 if (value1 instanceof String[]) {
-			            	 String[] elements = (String[]) value1;
-			            	    for (int i = 0; i < elements.length; i++) {
-			            	    	if(elements[i] == b.Type)
-			            	    		a.AttackDamage *= NotEffective;
-			            	        
-			            	    }
-			            	    
-					        } else {
-					    	if(b.Type == value1) {
-					        a.AttackDamage *= NotEffective;
-					    	}
-					    } 
-					    System.out.println();
-					}
-					
-				}
-			
-		}
-		
-		
 		void typeEffect(Pokemon a, Pokemon b) {
 			//Neutral Affect types do not need to be here
-			
 			//Create a hash table to make a dictionary for super effectives
 			Hashtable<String, Object> superEff = new Hashtable<String, Object>();
-			
-			
-			
-			
 			//Super Effectives against key
 			superEff.put("Water", "Fire");
 			superEff.put("Fire", "Grass");
 			superEff.put("Grass", "Water");
 			superEff.put("Electric", "Water");
-			
-			
 			//Create a hash table to make a dictionary for not very effectives
 			Hashtable<String, Object> NotVEff = new Hashtable<String, Object>();
 			//Use array as it has more than one option
@@ -209,40 +202,13 @@ public class Pokemon {
 			NotVEff.put("Electric", electricNotvEff);
 			NotVEff.put("Water", waterNotvEff);
 			
-			typeCheckSupEff(a,b, superEff); //This works
-			typeCheckNotVEff(a,b,NotVEff); 	//This does not
+			typeCheckSupEff(a,b, superEff);
+			typeCheckNotVEff(a,b,NotVEff); 
 			
 		}
 		
-		void showHP() {
-			System.out.println(hp);
-		}
 		
-		void hpMinus(Pokemon a, Pokemon b) {
-			b.hp = b.hp - a.AttackDamage;
-		}
-		
-		void Battle(Pokemon a, Pokemon b) {
-			while(a.hp > 0 && b.hp > 0) {
-				System.out.println("It is your turn!");
-				a.Attack(a);
-				a.typeEffect(a, b);
-				hpMinus(a,b);
-				b.showHP();
-				System.out.println("It is your opponents turn!");
-				b.botAttack(b);
-				a.typeEffect(b, a);
-				hpMinus(b,a);
-				a.showHP();
-			}
-			if(a.hp <= 0) {
-				System.out.println("Your Pokemon has feinted, you lose!");
-			}else {
-				System.out.println("Your Pokemon has won, you win!");
-			}
-		}
-	}
-
+}
 
 
 
