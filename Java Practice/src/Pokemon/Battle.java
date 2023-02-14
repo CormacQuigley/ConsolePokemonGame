@@ -11,6 +11,7 @@ public class Battle {
 		b.hp = b.hp - a.AttackDamage;
 	}
 	
+	
 
 	
 	void startBattle(Pokemon a, Pokemon b) {
@@ -21,6 +22,7 @@ public class Battle {
 			hpMinus(a,b);
 			if(b.feintCheck(b)) { 
 				System.out.println("Your Pokemon has won, you win!");
+				a.levelUp(a);
 				break;
 			}
 		
@@ -28,7 +30,7 @@ public class Battle {
 			b.showHP();
 			System.out.println("It is your opponents turn!");
 			b.botAttack(b);
-			a.typeEffect(b, a);
+			b.typeEffect(b, a);
 			hpMinus(b,a);
 			if(a.feintCheck(a)) {
 				System.out.println("Your Pokemon has feinted, you lose!");
@@ -50,6 +52,10 @@ public class Battle {
 				}
 				else if(replay1.equals("n")) {
 					System.out.println("Nice try trainer! Maybe next time.");
+					a.hp = (a.level/100 + 1) * 100;
+					b.hp = (b.level/100 + 1) * 100;
+					break;
+					
 				}else {
 					System.out.println("Wrong input, we will take that as a no...");
 				}
